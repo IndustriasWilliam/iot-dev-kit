@@ -1,0 +1,687 @@
+{
+  "Application": {
+    "Screens": [
+      {
+        "Name": "main",
+        "Includes": "#include \"gui/common/structs.hpp\"",
+        "Components": [
+          {
+            "Type": "Box",
+            "Name": "backgroundBox",
+            "Width": 811,
+            "Height": 600,
+            "Color": {
+              "Red": 3,
+              "Green": 3,
+              "Blue": 3
+            }
+          },
+          {
+            "Type": "Image",
+            "Name": "background",
+            "Y": 110,
+            "Width": 800,
+            "Height": 430,
+            "RelativeFilename": "background_day_full.png"
+          },
+          {
+            "Type": "SlideMenu",
+            "Name": "transitionMenu",
+            "Y": 390,
+            "Width": 800,
+            "Height": 150,
+            "FileNameBackground": "emptyBottombarBg.png",
+            "UseButton": true,
+            "FileNameButtonPressed": "slideMenuButton.png",
+            "FileNameButtonReleased": "slideMenuButton.png",
+            "ButtonX": 326,
+            "State": "Expanded",
+            "ExpandDirection": "North",
+            "Easing": "Cubic",
+            "EasingOption": "InOut",
+            "AnimationDuration": 300,
+            "VisiblePixelsWhenCollapsed": 51,
+            "ExpandedStateTimeout": 3000,
+            "Components": [
+              {
+                "Type": "CustomContainerInstance",
+                "Name": "bottombar",
+                "Width": 800,
+                "Height": 150,
+                "CustomContainerDefinitionName": "bottombarContainer"
+              }
+            ]
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "topbar",
+            "Y": 60,
+            "Width": 800,
+            "Height": 70,
+            "CustomContainerDefinitionName": "topbarContainer"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "selectedTransitionText",
+            "X": 200,
+            "Y": 327,
+            "Width": 400,
+            "Height": 48,
+            "TextId": "LargeCoverTransition",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "Fadeable": true
+          },
+          {
+            "Type": "Button",
+            "Name": "startTransitionButton",
+            "X": 345,
+            "Y": 215,
+            "Width": 110,
+            "Height": 110,
+            "Pressed": "icon_play_dark.png",
+            "Released": "icon_play_dark.png",
+            "Fadeable": true
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "startTransitionPressedInteraction",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "startTransitionButton"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main startTransitionPressed",
+              "ActionComponent": "main"
+            }
+          },
+          {
+            "InteractionName": "GetTransitionInfoInteraction",
+            "Trigger": {
+              "Type": "TriggerCustom",
+              "TriggerCustomTypeName": "bottombarContainer getTransitionInfo happens",
+              "TriggerComponent": "bottombar"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main getTransitionInfo",
+              "ParameterValue": "value",
+              "ActionComponent": "main"
+            }
+          },
+          {
+            "InteractionName": "ScrollWheelPressedInteraction",
+            "Trigger": {
+              "Type": "TriggerCustom",
+              "TriggerCustomTypeName": "bottombarContainer scrollWheelPressed happens",
+              "TriggerComponent": "bottombar"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main scrollWheelPressed",
+              "ActionComponent": "main"
+            }
+          },
+          {
+            "InteractionName": "ScrollWheelAnimationEndedInteraction",
+            "Trigger": {
+              "Type": "TriggerCustom",
+              "TriggerCustomTypeName": "bottombarContainer scrollWheelAnimationEnded happens",
+              "TriggerComponent": "bottombar"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main scrollWheelAnimationEnded",
+              "ActionComponent": "main"
+            }
+          },
+          {
+            "InteractionName": "SliderMenueStateChangedInteraction1",
+            "Trigger": {
+              "Type": "TriggerSlideMenuStateChanged",
+              "TriggerComponent": "transitionMenu"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call bottombarContainer animateArrow",
+              "ParameterValue": "transitionMenu.getState()",
+              "ActionComponent": "bottombar"
+            }
+          },
+          {
+            "InteractionName": "TopbarChromARTPressed",
+            "Trigger": {
+              "Type": "TriggerCustom",
+              "TriggerCustomTypeName": "topbarContainer chromARTStateChangedTrigger happens",
+              "TriggerComponent": "topbar"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main ChromARTPressed",
+              "ParameterValue": "value",
+              "ActionComponent": "main"
+            }
+          },
+          {
+            "InteractionName": "SliderMenueStateChangedInteraction2",
+            "Trigger": {
+              "Type": "TriggerSlideMenuStateChanged",
+              "TriggerComponent": "transitionMenu"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main sliderMenuStateChanged",
+              "ParameterValue": "transitionMenu.getState()",
+              "ActionComponent": "main"
+            }
+          },
+          {
+            "InteractionName": "AnimationSpeeedButtonInteraction",
+            "Trigger": {
+              "Type": "TriggerCustom",
+              "TriggerCustomTypeName": "bottombarContainer animaitonSpeedPressed happens",
+              "TriggerComponent": "bottombar"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call main animationSpeedButtonPressed",
+              "ParameterValue": "value",
+              "ActionComponent": "main"
+            }
+          }
+        ],
+        "CustomActions": [
+          {
+            "Name": "startTransitionPressed"
+          },
+          {
+            "Name": "getTransitionInfo",
+            "Description": "",
+            "HasValue": true,
+            "ValueType": "TransitionInfo*"
+          },
+          {
+            "Name": "scrollWheelPressed"
+          },
+          {
+            "Name": "scrollWheelAnimationEnded"
+          },
+          {
+            "Name": "sliderMenuStateChanged",
+            "HasValue": true,
+            "ValueType": "SlideMenu::State"
+          },
+          {
+            "Name": "ChromARTPressed",
+            "HasValue": true,
+            "ValueType": "bool"
+          },
+          {
+            "Name": "animationSpeedButtonPressed",
+            "HasValue": true,
+            "ValueType": "bool"
+          }
+        ]
+      }
+    ],
+    "CustomContainerDefinitions": [
+      {
+        "Name": "topbarContainer",
+        "Width": 800,
+        "Height": 70,
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "bar",
+            "Width": 800,
+            "Height": 70,
+            "RelativeFilename": "trans_top_bar.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "mcuTitle",
+            "X": 248,
+            "Y": 10,
+            "Width": 49,
+            "Height": 32,
+            "TextId": "__SingleUse_WAV9",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 221,
+              "Green": 255,
+              "Blue": 202
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "mcuValue",
+            "X": 291,
+            "Y": 10,
+            "Width": 60,
+            "Height": 32,
+            "TextId": "__SingleUse_FAL4",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 221,
+              "Green": 255,
+              "Blue": 202
+            },
+            "Wildcard1": {
+              "TextId": "__SingleUse_GGUX",
+              "UseBuffer": true,
+              "BufferSize": 4
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "fpsTite",
+            "X": 448,
+            "Y": 10,
+            "Width": 42,
+            "Height": 32,
+            "TextId": "__SingleUse_JL51",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 221,
+              "Green": 255,
+              "Blue": 202
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "fpsValue",
+            "X": 482,
+            "Y": 10,
+            "Width": 43,
+            "Height": 32,
+            "TextId": "__SingleUse_PD5M",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 221,
+              "Green": 255,
+              "Blue": 202
+            },
+            "Wildcard1": {
+              "TextId": "__SingleUse_RYF9",
+              "UseBuffer": true,
+              "BufferSize": 3
+            }
+          },
+          {
+            "Type": "Button",
+            "Name": "infoButton",
+            "X": 385,
+            "Y": 10,
+            "Width": 30,
+            "Height": 30,
+            "Pressed": "icon_info.png",
+            "Released": "icon_info.png"
+          },
+          {
+            "Type": "ToggleButton",
+            "Name": "chromArtButton",
+            "X": 645,
+            "Y": -1,
+            "Width": 152,
+            "Height": 52,
+            "InitialStatePressed": true,
+            "Pressed": "chrom-art_on.png",
+            "Released": "chrom-art_off.png"
+          },
+          {
+            "Type": "Image",
+            "Name": "chromArtGradient",
+            "X": 645,
+            "Y": -1,
+            "Width": 152,
+            "Height": 52,
+            "RelativeFilename": "chrom-art_on_light.png",
+            "Alpha": 0,
+            "Fadeable": true
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "ChromARTButtonPressed1",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "chromArtButton"
+            },
+            "Action": {
+              "Type": "ActionEmit",
+              "TriggerCustomTypeName": "topbarContainer chromARTStateChangedTrigger happens",
+              "ParameterValue": "chromArtButton.getState()"
+            }
+          },
+          {
+            "InteractionName": "ChromARTButtonPressed2",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "chromArtButton"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call topbarContainer chromARTStateChangedAction",
+              "ParameterValue": "chromArtButton.getState()",
+              "ActionComponent": "topbarContainer"
+            }
+          }
+        ],
+        "CustomTriggers": [
+          {
+            "Name": "chromARTStateChangedTrigger",
+            "HasValue": true,
+            "ValueType": "bool"
+          }
+        ],
+        "CustomActions": [
+          {
+            "Name": "chromARTStateChangedAction",
+            "HasValue": true,
+            "ValueType": "bool"
+          }
+        ]
+      },
+      {
+        "Name": "transitionItem",
+        "Width": 64,
+        "Height": 82,
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "transiotionIcon",
+            "Width": 64,
+            "Height": 54,
+            "RelativeFilename": "transitionType1.png",
+            "Fadeable": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "transitionName",
+            "Y": 58,
+            "Width": 64,
+            "Height": 18,
+            "TextId": "CoverTransition",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            }
+          }
+        ],
+        "Interactions": []
+      },
+      {
+        "Name": "bottombarContainer",
+        "Width": 800,
+        "Height": 150,
+        "Includes": "#include \"gui/common/structs.hpp\"\r\n#include <touchgfx/containers/SlideMenu.hpp>",
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "background",
+            "Y": 30,
+            "Width": 800,
+            "Height": 120,
+            "RelativeFilename": "trans_bund_bg.png"
+          },
+          {
+            "Type": "ScrollWheel",
+            "Name": "transitionSelectionWheel",
+            "X": 138,
+            "Y": 68,
+            "Width": 524,
+            "Height": 82,
+            "SelectedItemOffset": 220,
+            "IsHorizontal": true,
+            "IsCircular": true,
+            "ItemTemplateName": "transitionItem",
+            "NumberofItems": 10,
+            "ItemMargin": 10,
+            "Easing": "Back",
+            "EasingOption": "Out",
+            "SwipeAcceleration": 1.0,
+            "DragAcceleration": 1.0
+          },
+          {
+            "Type": "Image",
+            "Name": "overlay1",
+            "Y": 30,
+            "Width": 800,
+            "Height": 120,
+            "RelativeFilename": "trans_bund_gradient_overlay_1.png"
+          },
+          {
+            "Type": "Image",
+            "Name": "overlay2",
+            "Y": 30,
+            "Width": 800,
+            "Height": 120,
+            "RelativeFilename": "trans_bund_gradient_overlay_2.png"
+          },
+          {
+            "Type": "Image",
+            "Name": "top",
+            "X": 326,
+            "Y": 3,
+            "Width": 148,
+            "Height": 48,
+            "RelativeFilename": "trans_bund_tab.png",
+            "Fadeable": true
+          },
+          {
+            "Type": "TextureMapper",
+            "Name": "buttonIndicator",
+            "X": 380,
+            "Y": 13,
+            "Width": 40,
+            "Height": 40,
+            "RenderingAlgorithm": "Nearest-neighbor",
+            "FileNameImage": "icon_tab_close.png",
+            "LockBitmapToCenter": true,
+            "XBitmapPosition": 11.0,
+            "YBitmapPosition": 15.0,
+            "Scale": 1.0,
+            "LockOrigoToCenter": true,
+            "XOrigo": 20.0,
+            "YOrigo": 20.0,
+            "ZOrigo": 1000.0,
+            "CameraDistance": 1000.0,
+            "Fadeable": true
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "animationSpeedButton",
+            "Y": 41,
+            "Width": 130,
+            "Height": 120,
+            "CustomContainerDefinitionName": "animationButton"
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "animationSpeedPressed",
+            "Trigger": {
+              "Type": "TriggerCustom",
+              "TriggerCustomTypeName": "animationButton buttonPressed happens",
+              "TriggerComponent": "animationSpeedButton"
+            },
+            "Action": {
+              "Type": "ActionEmit",
+              "TriggerCustomTypeName": "bottombarContainer animaitonSpeedPressed happens",
+              "ParameterValue": "value"
+            }
+          }
+        ],
+        "CustomTriggers": [
+          {
+            "Name": "getTransitionInfo",
+            "HasValue": true,
+            "ValueType": "TransitionInfo*"
+          },
+          {
+            "Name": "scrollWheelPressed"
+          },
+          {
+            "Name": "scrollWheelAnimationEnded"
+          },
+          {
+            "Name": "animaitonSpeedPressed",
+            "HasValue": true,
+            "ValueType": "bool"
+          }
+        ],
+        "CustomActions": [
+          {
+            "Name": "animateArrow",
+            "HasValue": true,
+            "ValueType": "SlideMenu::State"
+          }
+        ]
+      },
+      {
+        "Name": "animationButton",
+        "Width": 130,
+        "Height": 120,
+        "Components": [
+          {
+            "Type": "TextureMapper",
+            "Name": "backgroundAnimationSpeed",
+            "Width": 130,
+            "Height": 120,
+            "RenderingAlgorithm": "Bilinear Interpolation",
+            "FileNameImage": "toggle_speed_bg.png",
+            "LockBitmapToCenter": true,
+            "XBitmapPosition": 12.0,
+            "YBitmapPosition": 23.0,
+            "Scale": 1.0,
+            "LockOrigoToCenter": true,
+            "XOrigo": 65.0,
+            "YOrigo": 60.0,
+            "ZOrigo": 1000.0,
+            "CameraDistance": 1000.0
+          },
+          {
+            "Type": "TextureMapper",
+            "Name": "needleAnimationSpeed",
+            "Width": 130,
+            "Height": 120,
+            "RenderingAlgorithm": "Bilinear Interpolation",
+            "FileNameImage": "icon_speed_slider.png",
+            "XBitmapPosition": 60.0,
+            "YBitmapPosition": 40.0,
+            "ZAngle": -0.1,
+            "Scale": 1.0,
+            "LockOrigoToCenter": true,
+            "XOrigo": 65.0,
+            "YOrigo": 60.0,
+            "ZOrigo": 1000.0,
+            "CameraDistance": 1000.0
+          },
+          {
+            "Type": "TextureMapper",
+            "Name": "sliderAnimationSpeed",
+            "X": 55,
+            "Y": 80,
+            "Width": 44,
+            "Height": 21,
+            "RenderingAlgorithm": "Nearest-neighbor",
+            "FileNameImage": "icon_tab_mini_slider.png",
+            "LockBitmapToCenter": true,
+            "XBitmapPosition": 11.0,
+            "YBitmapPosition": 9.0,
+            "Scale": 1.0,
+            "LockOrigoToCenter": true,
+            "XOrigo": 22.0,
+            "YOrigo": 10.5,
+            "ZOrigo": 1000.0,
+            "CameraDistance": 1000.0
+          },
+          {
+            "Type": "TextArea",
+            "Name": "speedText",
+            "X": 20,
+            "Y": 65,
+            "Width": 90,
+            "Height": 18,
+            "TextId": "NormalSpeed",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 221,
+              "Green": 255,
+              "Blue": 202
+            },
+            "Fadeable": true
+          }
+        ],
+        "Interactions": [],
+        "CustomTriggers": [
+          {
+            "Name": "buttonPressed",
+            "HasValue": true,
+            "ValueType": "bool"
+          }
+        ]
+      }
+    ],
+    "Name": "MyApplication",
+    "Resolution": {
+      "Width": 800,
+      "Height": 600
+    },
+    "SelectedColorDepth": 24,
+    "StartupScreenName": "main",
+    "SelectedStartupLanguage": "GB",
+    "Skin": "Blue",
+    "TouchGfxPath": "../Middlewares/ST/touchgfx",
+    "UIPath": ".",
+    "AvailableColorDepths": [
+      24
+    ],
+    "AvailableLCDs": {
+      "24": "LCD24bpp"
+    },
+    "AvailableSections": [
+      "ExtFlashSection",
+      "IntFlashSection"
+    ],
+    "AvailableResolutions": [
+      {
+        "Width": 800,
+        "Height": 600
+      }
+    ],
+    "PhysicalButtons": [],
+    "FrameworkFeatures": {
+      "LCD24bpp": {
+        "Id": "LCD24bpp",
+        "IsEnabled": true
+      }
+    },
+    "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
+    "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
+    "PostGenerateTargetCommand": "touchgfx update_project",
+    "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
+    "RunSimulatorCommand": "build\\bin\\simulator.exe",
+    "LandscapeSkinX": 0,
+    "LandscapeSkinY": 0,
+    "PortraitSkinX": 0,
+    "PortraitSkinY": 0,
+    "DisplayOrientation": "Landscape",
+    "Family": "STM32H7",
+    "Platform": "m7",
+    "ProjectFile": "../IoT_DevBoard_V0.ioc",
+    "OptionalComponentsRoot": "../Middlewares/ST/touchgfx_components",
+    "OptionalComponents": []
+  },
+  "Version": "4.20.0"
+}

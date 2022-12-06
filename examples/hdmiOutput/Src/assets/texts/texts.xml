@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.20.0">
+  <Languages>
+    <Language Id="GB" />
+  </Languages>
+  <Texts>
+    <TextGroup Id="Group1">
+      <Text Id="CoverTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Cover</Translation>
+      </Text>
+      <Text Id="FlipTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Flip</Translation>
+      </Text>
+      <Text Id="SlideTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Slide</Translation>
+      </Text>
+      <Text Id="CurtainsTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Curtains</Translation>
+      </Text>
+      <Text Id="RolloutTransition" Alignment="Left" TypographyId="wheelText">
+        <Translation Language="GB">Rollout</Translation>
+      </Text>
+      <Text Id="LargeCoverTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">COVER TRANSITION</Translation>
+      </Text>
+      <Text Id="LargeFlipTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">FLIP TRANSITION</Translation>
+      </Text>
+      <Text Id="LargeSlideTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">SLIDE TRANSITION</Translation>
+      </Text>
+      <Text Id="LargeCurtainsTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">CURTAINS TRANSITION</Translation>
+      </Text>
+      <Text Id="LargeRolloutTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">ROLLOUT TRANSITION</Translation>
+      </Text>
+      <Text Id="__SingleUse_WAV9" Alignment="Left" TypographyId="topbarText">
+        <Translation Language="GB">MCU:</Translation>
+      </Text>
+      <Text Id="__SingleUse_FAL4" Alignment="Right" TypographyId="topbarText">
+        <Translation Language="GB">&lt;value&gt;%</Translation>
+      </Text>
+      <Text Id="__SingleUse_GGUX" Alignment="Left" TypographyId="topbarText">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_JL51" Alignment="Left" TypographyId="topbarText">
+        <Translation Language="GB">FPS:</Translation>
+      </Text>
+      <Text Id="__SingleUse_PD5M" Alignment="Right" TypographyId="topbarText">
+        <Translation Language="GB">&lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_RYF9" Alignment="Left" TypographyId="topbarText">
+        <Translation Language="GB">60</Translation>
+      </Text>
+      <Text Id="NormalSpeed" Alignment="Center" TypographyId="animationSpeed">
+        <Translation Language="GB">Normal speed</Translation>
+      </Text>
+      <Text Id="SlowMotion" Alignment="Center" TypographyId="animationSpeed">
+        <Translation Language="GB">Slow-motion</Translation>
+      </Text>
+      <Text Id="LargeCubeTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">CUBE TRANSITION</Translation>
+      </Text>
+      <Text Id="CubeTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Cube</Translation>
+      </Text>
+      <Text Id="LargeSpinTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">SPIN TRANSITION</Translation>
+      </Text>
+      <Text Id="LargeSpinOutTransition" Alignment="Center" TypographyId="largeTransitionText">
+        <Translation Language="GB">SPIN OUT TRANSITION</Translation>
+      </Text>
+      <Text Id="SpinTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Spin</Translation>
+      </Text>
+      <Text Id="SpinOutTransition" Alignment="Center" TypographyId="wheelText">
+        <Translation Language="GB">Spin Out</Translation>
+      </Text>
+    </TextGroup>
+  </Texts>
+  <Typographies>
+    <Typography Id="wheelText" Font="Saira-Medium.ttf" Size="11" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="largeTransitionText" Font="Saira-SemiBold.ttf" Size="30" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="topbarText" Font="Saira-Medium.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0-9" />
+    <Typography Id="animationSpeed" Font="Saira-Medium.ttf" Size="11" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+  </Typographies>
+</TextDatabase>

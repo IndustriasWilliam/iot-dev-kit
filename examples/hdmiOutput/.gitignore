@@ -1,0 +1,12 @@
+/Debug
+
+*.du 
+*.o
+*.su
+*.d
+*.elf
+*.map
+*.list
+/Src/build
+/Src/generated
+/Src/simulator
