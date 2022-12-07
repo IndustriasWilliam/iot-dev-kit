@@ -197,9 +197,9 @@ void MX_FREERTOS_Init(void){
 
 	nrf_init(&nrf, &config);
 
-	defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-  	GUI_TaskHandle = osThreadNew(TouchGFX_Task, NULL, &GUI_Task_attributes);
-   	NRF24L01_TxCommandHandle = osThreadNew(NRF24L01TxCommand_Task, NULL, &NRF24L01_TxCommand_attributes);
+//	defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+ 	GUI_TaskHandle = osThreadNew(TouchGFX_Task, NULL, &GUI_Task_attributes);
+//   	NRF24L01_TxCommandHandle = osThreadNew(NRF24L01TxCommand_Task, NULL, &NRF24L01_TxCommand_attributes);
   	BlinkLedStatus_TaskHandle = osThreadNew(BlinkLedStatus_Task, NULL, &Blink_attributes);
 }
 

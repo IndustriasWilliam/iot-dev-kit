@@ -1,4 +1,5 @@
 #include "W25Q128_ExternalFlash.h"
+#include "n25q128a.h"
 
 QSPI_HandleTypeDef hqspi;
 
@@ -11,6 +12,7 @@ static uint8_t QSPI_Configuration(void);
 static uint8_t QSPI_ResetChip(void);
 static uint8_t QSPI_ReadStatus(uint8_t command, uint8_t* value);
 static uint8_t QSPI_WriteStatus(uint8_t command, uint8_t* value, uint32_t length);
+static uint8_t QSPI_DummyCyclesCfg(void);
 
 extern void Error_Handler(void);
 
@@ -88,7 +90,7 @@ void MX_QUADSPI_Init(void)
     hqspi.Init.FifoThreshold = 4;
     hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_HALFCYCLE;
     hqspi.Init.FlashSize = POSITION_VAL(MEMORY_FLASH_SIZE) - 1;
-    hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
+    hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_2_CYCLE;
     hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
     hqspi.Init.FlashID = QSPI_FLASH_ID_1;
     hqspi.Init.DualFlash = QSPI_DUALFLASH_DISABLE;
@@ -114,11 +116,12 @@ uint8_t CSP_QUADSPI_Init(void)
     {
         return HAL_ERROR;
     }
+	/* Configuration of the dummy cycles on QSPI memory side */
+//	if(QSPI_DummyCyclesCfg() != HAL_OK)
+//	{
+//		return HAL_ERROR;
+//	}
 
-    if (QSPI_Configuration() != HAL_OK)
-    {
-        return HAL_ERROR;
-    }
 
     return HAL_OK;
 }
@@ -379,16 +382,17 @@ uint8_t CSP_QSPI_EnableMemoryMappedMode(void){
 
     /* Configure the command for the read instruction */
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.Instruction       = QUAD_OUT_FAST_READ_CMD;
+    sCommand.Instruction       = QUAD_INOUT_FAST_READ_CMD;
     sCommand.AddressMode       = QSPI_ADDRESS_4_LINES;
     sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
 
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_4_LINES;
     sCommand.AlternateBytesSize= QSPI_ALTERNATE_BYTES_8_BITS;
     sCommand.AlternateBytes    = 0;
-
+	sCommand.NbData = 0;
+	sCommand.Address = 0;
     sCommand.DataMode          = QSPI_DATA_4_LINES;
-    sCommand.DummyCycles       = 4;
+    sCommand.DummyCycles       = 8;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
     sCommand.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
@@ -511,3 +515,65 @@ void HAL_QSPI_MspDeInit(QSPI_HandleTypeDef* hqspi)
 	}
 
 }
+
+/**
+  * @brief  This function configure the dummy cycles on memory side.
+  * @param  hqspi: QSPI handle
+  * @retval None
+  */
+static uint8_t QSPI_DummyCyclesCfg(void)
+{
+	QSPI_CommandTypeDef s_command;
+	uint8_t reg;
+
+	/* Initialize the read volatile configuration register command */
+	s_command.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
+	s_command.Instruction       = READ_VOL_CFG_REG_CMD;
+	s_command.AddressMode       = QSPI_ADDRESS_NONE;
+	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
+	s_command.DataMode          = QSPI_DATA_1_LINE;
+	s_command.DummyCycles       = 0;
+	s_command.NbData            = 1;
+	s_command.DdrMode           = QSPI_DDR_MODE_DISABLE;
+	s_command.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
+	s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
+
+	/* Configure the command */
+	if(HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+	{
+		return HAL_ERROR;
+	}
+
+	/* Reception of the data */
+	if (HAL_QSPI_Receive(&hqspi, &reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+	{
+		return HAL_ERROR;
+	}
+
+	/* Enable write operations */
+	if (QSPI_WriteEnable() != HAL_OK)
+	{
+		return HAL_ERROR;
+	}
+
+	/* Update volatile configuration register (with new dummy cycles) */
+	s_command.Instruction = WRITE_VOL_CFG_REG_CMD;
+	MODIFY_REG(reg, N25Q128A_VCR_NB_DUMMY, (N25Q128A_DUMMY_CYCLES_READ_QUAD << POSITION_VAL(N25Q128A_VCR_NB_DUMMY)));
+
+	/* Configure the write volatile configuration register command */
+	if (HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+	{
+		return HAL_ERROR;
+	}
+
+	/* Transmission of the data */
+	if (HAL_QSPI_Transmit(&hqspi, &reg, HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+	{
+		return HAL_ERROR;;
+	}
+
+
+
+	return HAL_OK;
+}
+

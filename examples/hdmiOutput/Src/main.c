@@ -118,11 +118,12 @@ int main(void){
 
 	/* should before adv7513 configuration */
 	MX_GPIO_Init();
-
-	/* Configure the system clock */
-	SystemClock_Config();
 	MX_I2C1_Init();
 	BSP_VIDEO_Init();
+	SystemClock_Config();
+	/* Configure the system clock */
+
+
 	/* Configure the peripherals common clocks */
 	PeriphCommonClock_Config();
 	if (CSP_QUADSPI_Init() != HAL_OK){
@@ -149,7 +150,7 @@ int main(void){
 	MX_SPI2_Init();
 	MX_FATFS_Init();
 	MX_LIBJPEG_Init();
-	MX_HDMI_CEC_Init();
+//	MX_HDMI_CEC_Init();
 //	MX_RTC_Init();
 	MX_TouchGFX_Init();
 //	/* Call PreOsInit function */
@@ -158,8 +159,8 @@ int main(void){
 	/* Init scheduler */
 	osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
 	MX_FREERTOS_Init();
-
-	/* Start scheduler */
+//
+//	/* Start scheduler */
 	osKernelStart();
 
 	while (1){
